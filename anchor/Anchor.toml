@@ -1,0 +1,21 @@
+[toolchain]
+package_manager = "yarn"
+
+[features]
+resolution = true
+skip-lint = false
+
+[programs.localnet]
+anchor = "4qt2HzwN6UNtc3fZtXJQdtFhro8dvHjbPx4UiqfoMqaG"
+
+[programs.devnet]
+anchor = "4qt2HzwN6UNtc3fZtXJQdtFhro8dvHjbPx4UiqfoMqaG"
+
+[provider]
+cluster = "devnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "cargo test"
+
+[hooks]
