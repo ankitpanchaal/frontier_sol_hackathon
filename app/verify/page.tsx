@@ -11,6 +11,7 @@ import {
 import { fetchCampaign, fetchBadgeRecord, loadIdl, type BadgeRecordData, type CampaignData } from '@/lib/solana/program';
 import IDL from '@/lib/solana/idl.json';
 import { Idl } from '@coral-xyz/anchor';
+import { cn } from '@/lib/utils';
 
 loadIdl(IDL as Idl);
 
