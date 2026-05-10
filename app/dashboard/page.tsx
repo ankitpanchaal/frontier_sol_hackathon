@@ -19,50 +19,52 @@ loadIdl(IDL as Idl);
 function CampaignCard({ campaign }: { campaign: CampaignData }) {
   return (
     <div className={cn(
-      'rounded-2xl border bg-card p-5 hover:border-primary/30 transition-all duration-200 group',
-      campaign.isActive ? 'border-border' : 'border-border/40 opacity-70'
+      'border bg-card p-6 transition-colors duration-200 group relative',
+      campaign.isActive ? 'border-border' : 'border-border opacity-60 grayscale'
     )}>
-      <div className="flex items-start justify-between mb-3">
+      <div className="flex items-start justify-between mb-6">
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-sm truncate">{campaign.title}</h3>
-          <p className="text-xs text-muted-foreground mt-0.5 truncate">{campaign.description}</p>
+          <h3 className="font-bold text-sm uppercase font-mono tracking-tight truncate">{campaign.title}</h3>
+          <p className="text-[10px] text-muted-foreground uppercase font-mono tracking-widest mt-1 truncate">{campaign.description}</p>
         </div>
         <span className={cn(
-          'ml-3 flex-shrink-0 px-2 py-0.5 rounded-full text-xs font-medium',
+          'ml-3 flex-shrink-0 px-2 py-0.5 text-[9px] font-bold font-mono uppercase tracking-widest border',
           campaign.isActive
-            ? 'bg-emerald-500/10 text-emerald-400'
-            : 'bg-muted text-muted-foreground'
+            ? 'border-foreground bg-foreground text-background'
+            : 'border-border text-muted-foreground'
         )}>
           {campaign.isActive ? 'Active' : 'Paused'}
         </span>
       </div>
 
-      <div className="flex items-center gap-3 text-xs text-muted-foreground mb-4">
-        <span className="flex items-center gap-1">
-          <Users size={11} />
-          {campaign.issuedCount.toNumber()} claimed
-        </span>
-        {campaign.maxSupply.toNumber() > 0 && (
-          <span>/ {campaign.maxSupply.toNumber()} max</span>
-        )}
-        <span className="px-2 py-0.5 rounded-full bg-muted">{campaign.category}</span>
+      <div className="grid grid-cols-2 gap-4 mb-8">
+        <div className="flex flex-col gap-1">
+          <span className="text-[9px] text-muted-foreground uppercase font-mono tracking-widest">Circulation</span>
+          <span className="text-xs font-bold font-mono">
+            {campaign.issuedCount.toNumber()} {campaign.maxSupply.toNumber() > 0 ? `/ ${campaign.maxSupply.toNumber()}` : ''}
+          </span>
+        </div>
+        <div className="flex flex-col gap-1">
+          <span className="text-[9px] text-muted-foreground uppercase font-mono tracking-widest">Namespace</span>
+          <span className="text-xs font-bold font-mono uppercase truncate">{campaign.category}</span>
+        </div>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 pt-4 border-t border-border">
         <Link
           href={`/dashboard/${campaign.publicKey.toBase58()}`}
           id={`manage-campaign-${campaign.campaignId}`}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border border-border hover:bg-muted/60 transition-colors"
+          className="flex-1 text-center py-2 text-[10px] font-bold font-mono uppercase border border-border hover:bg-accent transition-colors"
         >
-          Manage
+          Terminal
         </Link>
         <Link
           href={`/claim/${campaign.publicKey.toBase58()}`}
           target="_blank"
           id={`view-claim-${campaign.campaignId}`}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border border-border hover:bg-muted/60 transition-colors"
+          className="px-3 py-2 border border-border hover:bg-accent transition-colors"
         >
-          <QrCode size={12} /> Claim Page
+          <QrCode size={12} />
         </Link>
       </div>
     </div>
@@ -97,75 +99,76 @@ export default function DashboardPage() {
   }, [publicKey, connection, signTransaction, signAllTransactions]);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 sm:px-6 py-16">
+    <div className="mx-auto max-w-6xl px-6 py-24">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-10">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-          <p className="text-muted-foreground mt-1">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8 mb-16">
+        <div className="max-w-2xl">
+          <h1 className="text-4xl font-bold tracking-tighter uppercase font-mono mb-4">Command Center</h1>
+          <p className="text-sm text-muted-foreground font-mono uppercase tracking-tight">
             {connected
-              ? `Manage your badge campaigns · ${publicKey?.toBase58().slice(0, 8)}…`
-              : 'Connect your wallet to view campaigns'}
+              ? `AUTHENTICATED // ${publicKey?.toBase58().slice(0, 12)}...`
+              : 'Connection Required'}
           </p>
         </div>
         {connected && (
           <Link
             href="/dashboard/create"
             id="dashboard-create-badge"
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold bg-primary text-primary-foreground hover:opacity-90 transition-all shadow-lg shadow-primary/25 text-sm"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3 bg-foreground text-background font-bold font-mono text-xs uppercase hover:opacity-90 transition-opacity"
           >
-            <Plus size={16} />
-            Create Badge
+            <Plus size={14} />
+            New Emission
           </Link>
         )}
       </div>
 
       {/* Not connected */}
       {!connected && (
-        <div className="rounded-2xl border border-dashed border-border/80 flex flex-col items-center justify-center py-24 gap-5">
-          <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center">
-            <LayoutDashboard size={28} className="text-primary" />
+        <div className="border border-dashed border-border flex flex-col items-center justify-center py-32 gap-6 bg-card/50">
+          <div className="w-12 h-12 bg-foreground/5 flex items-center justify-center">
+            <LayoutDashboard size={24} strokeWidth={1} className="text-muted-foreground" />
           </div>
           <div className="text-center">
-            <h2 className="font-semibold text-lg mb-2">Connect to get started</h2>
-            <p className="text-muted-foreground text-sm max-w-xs">
-              Connect your wallet to create badge campaigns and manage your issuances.
+            <h2 className="font-bold text-sm uppercase font-mono mb-2 tracking-tight">Access Denied</h2>
+            <p className="text-muted-foreground text-[10px] uppercase font-mono max-w-xs leading-relaxed tracking-widest">
+              Please initialize your session by connecting a verified Solana wallet.
             </p>
           </div>
           <button
             id="dashboard-connect-wallet"
             onClick={() => setVisible(true)}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold bg-primary text-primary-foreground hover:opacity-90 transition-all text-sm shadow-lg shadow-primary/25"
+            className="px-8 py-3 bg-foreground text-background font-bold font-mono text-xs uppercase hover:opacity-90 transition-opacity"
           >
-            Connect Wallet <ArrowRight size={15} />
+            Connect Wallet
           </button>
         </div>
       )}
 
       {/* Loading */}
       {connected && loading && (
-        <div className="flex items-center justify-center py-24">
-          <Loader2 size={28} className="animate-spin text-muted-foreground" />
+        <div className="flex flex-col items-center justify-center py-32 gap-4">
+          <Loader2 size={24} className="animate-spin text-muted-foreground" />
+          <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Syncing Ledger...</span>
         </div>
       )}
 
       {/* Empty state */}
       {connected && !loading && campaigns.length === 0 && (
-        <div className="rounded-2xl border border-dashed border-border/80 flex flex-col items-center justify-center py-24 gap-5">
-          <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center">
-            <BadgeCheck size={28} className="text-primary" />
+        <div className="border border-dashed border-border flex flex-col items-center justify-center py-32 gap-6 bg-card/50">
+          <div className="w-12 h-12 bg-foreground/5 flex items-center justify-center">
+            <BadgeCheck size={24} strokeWidth={1} className="text-muted-foreground" />
           </div>
           <div className="text-center">
-            <h2 className="font-semibold text-lg mb-2">No campaigns yet</h2>
-            <p className="text-muted-foreground text-sm max-w-xs">
-              Create your first badge campaign and share it with your community.
+            <h2 className="font-bold text-sm uppercase font-mono mb-2 tracking-tight">No Active Emissions</h2>
+            <p className="text-muted-foreground text-[10px] uppercase font-mono max-w-xs leading-relaxed tracking-widest">
+              Your identity has not issued any on-chain badges through this protocol.
             </p>
           </div>
           <Link
             href="/dashboard/create"
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold bg-primary text-primary-foreground hover:opacity-90 transition-all text-sm"
+            className="px-8 py-3 border border-border font-bold font-mono text-xs uppercase hover:bg-accent transition-colors"
           >
-            Create your first badge <ArrowRight size={15} />
+            Create First Badge
           </Link>
         </div>
       )}
@@ -173,12 +176,12 @@ export default function DashboardPage() {
       {/* Campaign grid */}
       {connected && !loading && campaigns.length > 0 && (
         <>
-          <div className="flex items-center justify-between mb-4">
-            <p className="text-sm text-muted-foreground">
-              {campaigns.length} campaign{campaigns.length !== 1 ? 's' : ''}
+          <div className="flex items-center justify-between mb-8 pb-4 border-b border-border">
+            <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground">
+              {campaigns.length} Active Records
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-border">
             {campaigns.map(c => <CampaignCard key={c.publicKey.toBase58()} campaign={c} />)}
           </div>
         </>

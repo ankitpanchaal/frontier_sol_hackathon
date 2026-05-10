@@ -39,7 +39,7 @@ export default function VerifyPage() {
     setResult(null);
 
     if (!walletInput.trim() || !campaignInput.trim()) {
-      setInputError('Please enter both wallet address and campaign ID.');
+      setInputError('REQUIRED: RECIPIENT_ADDRESS && CAMPAIGN_ID');
       return;
     }
 
@@ -49,14 +49,14 @@ export default function VerifyPage() {
     try {
       recipientKey = new PublicKey(walletInput.trim());
     } catch {
-      setInputError('Invalid wallet address.');
+      setInputError('ERROR: INVALID_RECIPIENT_ADDRESS');
       return;
     }
 
     try {
       campaignKey = new PublicKey(campaignInput.trim());
     } catch {
-      setInputError('Invalid campaign ID (must be a Solana public key).');
+      setInputError('ERROR: INVALID_CAMPAIGN_ID');
       return;
     }
 
@@ -89,62 +89,62 @@ export default function VerifyPage() {
   };
 
   return (
-    <div className="mx-auto max-w-2xl px-4 sm:px-6 py-16">
+    <div className="mx-auto max-w-2xl px-6 py-24">
       {/* Header */}
-      <div className="text-center mb-10">
-        <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-5">
-          <ShieldCheck size={26} className="text-primary" />
+      <div className="text-left mb-16">
+        <div className="w-12 h-12 bg-foreground/5 flex items-center justify-center mb-6">
+          <ShieldCheck size={24} strokeWidth={1} className="text-foreground" />
         </div>
-        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3">Verify a Badge</h1>
-        <p className="text-muted-foreground max-w-sm mx-auto text-sm">
-          Paste a wallet address and campaign ID to confirm a badge is authentic and was issued on SoulStamp.
+        <h1 className="text-4xl font-bold tracking-tighter uppercase font-mono mb-4">Attestation Audit</h1>
+        <p className="text-sm text-muted-foreground font-mono uppercase tracking-tight">
+          Verify the authenticity of any SoulStamp badge on the Solana ledger.
         </p>
       </div>
 
       {/* Inputs */}
-      <div className="rounded-2xl border border-border bg-card p-6 sm:p-8 mb-6">
-        <div className="space-y-4">
+      <div className="border border-border bg-card p-8 mb-12">
+        <div className="space-y-6">
           <div>
-            <label className="text-sm font-medium mb-2 block" htmlFor="recipient-input">
-              Wallet Address
+            <label className="text-[10px] font-bold uppercase font-mono tracking-widest mb-2 block" htmlFor="recipient-input">
+              Target Wallet
             </label>
             <input
               id="recipient-input"
               type="text"
-              placeholder="e.g. 8UxUji..."
+              placeholder="ADDRESS_HEX"
               value={walletInput}
               onChange={(e) => setWalletInput(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all font-mono"
+              className="w-full px-4 py-3 border border-border bg-background text-xs font-mono uppercase tracking-tight focus:outline-none focus:border-foreground transition-colors"
             />
           </div>
           <div>
-            <label className="text-sm font-medium mb-2 block" htmlFor="campaign-input">
-              Campaign ID (Public Key)
+            <label className="text-[10px] font-bold uppercase font-mono tracking-widest mb-2 block" htmlFor="campaign-input">
+              Campaign Identifier
             </label>
             <input
               id="campaign-input"
               type="text"
-              placeholder="e.g. 4qt2Hz..."
+              placeholder="PUBLIC_KEY"
               value={campaignInput}
               onChange={(e) => setCampaignInput(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all font-mono"
+              className="w-full px-4 py-3 border border-border bg-background text-xs font-mono uppercase tracking-tight focus:outline-none focus:border-foreground transition-colors"
             />
           </div>
 
           {inputError && (
-            <p className="text-sm text-destructive">{inputError}</p>
+            <p className="text-[10px] font-mono text-destructive uppercase tracking-widest">{inputError}</p>
           )}
 
           <button
             id="verify-button"
             onClick={handleVerify}
             disabled={verifying}
-            className="w-full py-3 rounded-xl font-semibold bg-primary text-primary-foreground hover:opacity-90 disabled:opacity-50 transition-all text-sm flex items-center justify-center gap-2"
+            className="w-full py-4 bg-foreground text-background font-bold font-mono text-xs uppercase hover:opacity-90 disabled:opacity-50 transition-opacity flex items-center justify-center gap-3"
           >
             {verifying ? (
-              <><Loader2 size={16} className="animate-spin" /> Verifying…</>
+              <><Loader2 size={14} className="animate-spin" /> Verifying...</>
             ) : (
-              <><Search size={16} /> Verify Badge</>
+              <><Search size={14} /> Run Verification</>
             )}
           </button>
         </div>
@@ -154,77 +154,72 @@ export default function VerifyPage() {
       {result && (
         <div className="animate-slide-up">
           {result.status === 'not_found' && (
-            <div className="rounded-2xl border border-border bg-card p-6 text-center">
-              <XCircle size={40} className="text-muted-foreground mx-auto mb-3" />
-              <h2 className="font-semibold mb-1">Badge Not Found</h2>
-              <p className="text-sm text-muted-foreground">
-                No badge record exists for this wallet + campaign combination.
+            <div className="border border-border bg-card p-8 text-center">
+              <XCircle size={32} strokeWidth={1} className="text-muted-foreground mx-auto mb-4" />
+              <h2 className="font-bold text-sm uppercase font-mono mb-2 tracking-tight">Record Not Found</h2>
+              <p className="text-[10px] text-muted-foreground uppercase font-mono tracking-widest">
+                No matching attestation exists on-chain for the provided parameters.
               </p>
             </div>
           )}
 
           {(result.status === 'authentic' || result.status === 'revoked') && (
-            <div className={`rounded-2xl border bg-card p-6 ${result.status === 'revoked' ? 'border-destructive/30' : 'border-emerald-500/30'}`}>
+            <div className={cn(
+              'border bg-card p-8',
+              result.status === 'revoked' ? 'border-destructive' : 'border-foreground'
+            )}>
               {/* Status banner */}
-              <div className={`flex items-center gap-3 p-4 rounded-xl mb-5 ${result.status === 'authentic' ? 'bg-emerald-500/10' : 'bg-destructive/10'}`}>
+              <div className="flex items-start gap-4 mb-10 pb-8 border-b border-border">
                 {result.status === 'authentic' ? (
-                  <CheckCircle2 size={24} className="text-emerald-400" />
+                  <CheckCircle2 size={24} className="text-foreground mt-1" />
                 ) : (
-                  <XCircle size={24} className="text-destructive" />
+                  <XCircle size={24} className="text-destructive mt-1" />
                 )}
                 <div>
-                  <p className={`font-semibold ${result.status === 'authentic' ? 'text-emerald-400' : 'text-destructive'}`}>
-                    {result.status === 'authentic' ? '✓ Authentic Badge' : '✗ Badge Revoked'}
+                  <p className={cn(
+                    'font-bold text-lg uppercase font-mono tracking-tighter leading-none mb-2',
+                    result.status === 'authentic' ? 'text-foreground' : 'text-destructive'
+                  )}>
+                    {result.status === 'authentic' ? 'Status: Authentic' : 'Status: Revoked'}
                   </p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-[10px] text-muted-foreground uppercase font-mono tracking-widest">
                     {result.status === 'authentic'
-                      ? 'This badge is genuine and was issued by SoulStamp.'
-                      : 'This badge was revoked by the campaign issuer.'}
+                      ? 'Cryptographic proof of achievement confirmed.'
+                      : 'This attestation has been nullified by the issuer.'}
                   </p>
                 </div>
               </div>
 
               {/* Badge details */}
-              <div className="space-y-3 text-sm">
-                <div className="flex items-center gap-3">
-                  <BadgeCheck size={15} className="text-muted-foreground" />
-                  <div>
-                    <span className="text-muted-foreground">Badge</span>
-                    <span className="ml-2 font-medium">{result.campaign.title}</span>
+              <div className="space-y-6">
+                <div className="grid grid-cols-2 gap-8">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[9px] text-muted-foreground uppercase font-mono tracking-widest">Attestation</span>
+                    <span className="text-xs font-bold font-mono uppercase">{result.campaign.title}</span>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[9px] text-muted-foreground uppercase font-mono tracking-widest">Namespace</span>
+                    <span className="text-xs font-bold font-mono uppercase">
+                      {result.campaign.category} {result.campaign.eventName && `// ${result.campaign.eventName}`}
+                    </span>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Tag size={15} className="text-muted-foreground" />
-                  <div>
-                    <span className="text-muted-foreground">Category</span>
-                    <span className="ml-2">{result.campaign.category}</span>
-                    {result.campaign.eventName && (
-                      <span className="ml-2 text-muted-foreground">· {result.campaign.eventName}</span>
-                    )}
-                  </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-[9px] text-muted-foreground uppercase font-mono tracking-widest">Issuer Identity</span>
+                  <span className="text-[10px] font-mono break-all">{result.campaign.issuer.toBase58()}</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <User size={15} className="text-muted-foreground" />
-                  <div>
-                    <span className="text-muted-foreground">Issuer</span>
-                    <span className="ml-2 font-mono text-xs">{result.campaign.issuer.toBase58()}</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Calendar size={15} className="text-muted-foreground" />
-                  <div>
-                    <span className="text-muted-foreground">Issued at</span>
-                    <span className="ml-2">{formatDate(result.badge.issuedAt)}</span>
-                  </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-[9px] text-muted-foreground uppercase font-mono tracking-widest">Emission Timestamp</span>
+                  <span className="text-xs font-mono uppercase">{formatDate(result.badge.issuedAt)}</span>
                 </div>
               </div>
 
-              <div className="mt-5 pt-4 border-t border-border/60 flex gap-2">
+              <div className="mt-12 pt-6 border-t border-border flex justify-end">
                 <a
                   href={`/profile/${result.badge.recipient.toBase58()}`}
-                  className="text-xs text-primary hover:underline"
+                  className="text-[10px] font-bold font-mono uppercase tracking-widest hover:underline"
                 >
-                  View wallet profile →
+                  View Identity History →
                 </a>
               </div>
             </div>

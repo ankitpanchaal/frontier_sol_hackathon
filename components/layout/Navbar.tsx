@@ -26,28 +26,28 @@ export function Navbar() {
           <Link
             href="/"
             id="navbar-logo"
-            className="flex items-center gap-2.5 group"
+            className="flex items-center gap-2 group"
           >
-            <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/30 group-hover:shadow-primary/50 transition-all duration-300">
-              <Stamp size={16} className="text-primary-foreground" />
+            <div className="w-7 h-7 bg-foreground flex items-center justify-center transition-transform duration-200 group-hover:scale-105">
+              <Stamp size={14} className="text-background" />
             </div>
-            <span className="font-semibold text-lg tracking-tight">
-              Soul<span className="purple-text">Stamp</span>
+            <span className="font-bold text-base tracking-tighter uppercase font-mono">
+              SoulStamp
             </span>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-2">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 id={`nav-${link.label.toLowerCase()}`}
                 className={cn(
-                  'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200',
+                  'px-3 py-1.5 text-xs font-medium font-mono tracking-tight transition-colors',
                   pathname === link.href
-                    ? 'bg-primary/10 text-primary'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted/60'
+                    ? 'bg-foreground text-background'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                 )}
               >
                 {link.label}
@@ -56,17 +56,17 @@ export function Navbar() {
           </nav>
 
           {/* Right actions */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-4">
             <Link
               href="/dashboard/create"
               id="navbar-create-badge"
               className={cn(
-                'flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold',
-                'border border-border hover:bg-muted/60 transition-all duration-200',
+                'flex items-center gap-2 px-3 py-1.5 text-xs font-bold font-mono uppercase',
+                'border border-border hover:bg-accent transition-colors',
                 'text-foreground'
               )}
             >
-              + Create Badge
+              + Create
             </Link>
             <ConnectButton />
           </div>

@@ -17,43 +17,43 @@ const footerLinks = {
 
 export function Footer() {
   return (
-    <footer className="border-t border-border/60 bg-background/50 mt-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+    <footer className="border-t border-border bg-background mt-32">
+      <div className="mx-auto max-w-7xl px-6 py-20">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-16">
           {/* Brand */}
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center gap-2.5 mb-4 group w-fit">
-              <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/30">
-                <Stamp size={16} className="text-primary-foreground" />
+            <Link href="/" className="flex items-center gap-3 mb-6 group w-fit">
+              <div className="w-8 h-8 bg-foreground flex items-center justify-center transition-transform duration-200 group-hover:scale-105">
+                <Stamp size={14} className="text-background" />
               </div>
-              <span className="font-semibold text-lg tracking-tight">
-                Soul<span className="purple-text">Stamp</span>
+              <span className="font-bold text-lg tracking-tighter uppercase font-mono">
+                SoulStamp
               </span>
             </Link>
-            <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
-              Achievement badges you earn, not buy. The on-chain identity layer for communities, DAOs, and events on Solana.
+            <p className="text-xs text-muted-foreground max-w-sm leading-relaxed font-mono uppercase tracking-tight">
+              A sovereign protocol for verified achievement recognition. Permanent, non-transferable, and cryptographically secure on the Solana ledger.
             </p>
-            <div className="flex items-center gap-3 mt-5">
+            <div className="flex items-center gap-4 mt-8">
               <a
                 href="#"
                 aria-label="X (Twitter)"
-                className="w-9 h-9 rounded-lg border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-all duration-200"
+                className="text-muted-foreground hover:text-foreground transition-colors"
               >
-                <X size={15} />
+                <X size={16} strokeWidth={1.5} />
               </a>
               <a
                 href="#"
                 aria-label="GitHub"
-                className="w-9 h-9 rounded-lg border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-all duration-200"
+                className="text-muted-foreground hover:text-foreground transition-colors"
               >
-                <GitFork size={15} />
+                <GitFork size={16} strokeWidth={1.5} />
               </a>
               <a
                 href="#"
                 aria-label="Website"
-                className="w-9 h-9 rounded-lg border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-all duration-200"
+                className="text-muted-foreground hover:text-foreground transition-colors"
               >
-                <Globe size={15} />
+                <Globe size={16} strokeWidth={1.5} />
               </a>
             </div>
           </div>
@@ -61,14 +61,14 @@ export function Footer() {
           {/* Links */}
           {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>
-              <h3 className="text-sm font-semibold mb-4">{category}</h3>
-              <ul className="space-y-3">
+              <h3 className="text-[10px] font-bold uppercase tracking-widest font-mono text-foreground mb-6">{category}</h3>
+              <ul className="space-y-4">
                 {links.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
                       target={'external' in link && link.external ? '_blank' : undefined}
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      className="text-[10px] text-muted-foreground hover:text-foreground uppercase font-mono tracking-tight transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -79,14 +79,13 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-10 pt-6 border-t border-border/60 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-muted-foreground">
-            © 2026 SoulStamp. Built on{' '}
-            <span className="purple-text font-medium">Solana</span>.
+        <div className="mt-20 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-6">
+          <p className="text-[10px] text-muted-foreground font-mono uppercase tracking-[0.1em]">
+            © 2026 SOULSTAMP PROTOCOL // BUILT ON SOLANA
           </p>
-          <div className="flex items-center gap-1.5">
-            <div className="w-2 h-2 rounded-full bg-emerald-400" />
-            <span className="text-xs text-muted-foreground">Devnet Live</span>
+          <div className="flex items-center gap-3">
+            <div className="w-1.5 h-1.5 bg-emerald-500" />
+            <span className="text-[10px] font-bold font-mono uppercase tracking-widest text-muted-foreground">DEVNET_OPERATIONAL</span>
           </div>
         </div>
       </div>

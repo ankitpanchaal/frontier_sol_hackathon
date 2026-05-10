@@ -120,33 +120,19 @@ const exampleBadges = [
 
 export default function HomePage() {
   return (
-    <div className="relative overflow-x-hidden">
+    <div className="relative overflow-x-hidden bg-background">
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center hero-gradient">
-        {/* Decorative orbs */}
-        <div className="absolute top-20 left-1/4 w-72 h-72 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-20 right-1/4 w-96 h-96 rounded-full bg-accent/8 blur-3xl pointer-events-none" />
-
-        <div className="relative mx-auto max-w-4xl px-4 sm:px-6 text-center py-20">
-          {/* Pill badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/8 text-primary text-xs font-semibold mb-8 animate-fade-in">
-            <Zap size={12} className="fill-current" />
-            Built on Solana · Soulbound Badges
-          </div>
-
+      <section className="relative min-h-[85vh] flex items-center justify-center border-b border-border">
+        <div className="relative mx-auto max-w-5xl px-6 text-center py-24">
           {/* Headline */}
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6 animate-slide-up leading-[1.05]">
-            Achievement badges{' '}
-            <br className="hidden sm:block" />
-            you{' '}
-            <span className="gold-text">earn</span>
-            {', '}not{' '}
-            <span className="purple-text">buy</span>.
+          <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tighter mb-8 animate-slide-up leading-[0.9] uppercase font-mono">
+            Achievement <br />
+            Badges <br />
+            You <span className="text-muted-foreground italic">Earn</span>
           </h1>
 
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed animate-slide-up" style={{ animationDelay: '0.1s' }}>
-            SoulStamp lets communities issue permanent, non-transferable Web3 badges that prove real
-            participation — not wealth. Perfect for events, DAOs, and onboarding.
+          <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto mb-12 leading-relaxed animate-slide-up font-mono uppercase tracking-tight" style={{ animationDelay: '0.1s' }}>
+            SoulStamp issues permanent, non-transferable Web3 badges on Solana. Prove real participation, not wealth.
           </p>
 
           {/* CTAs */}
@@ -157,48 +143,45 @@ export default function HomePage() {
             <Link
               href="/dashboard/create"
               id="hero-create-badge"
-              className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold bg-primary text-primary-foreground hover:opacity-90 active:scale-95 transition-all duration-200 shadow-lg shadow-primary/30 text-sm"
+              className="w-full sm:w-auto px-8 py-3 bg-foreground text-background font-bold font-mono text-sm uppercase hover:opacity-90 transition-opacity"
             >
-              Create Your First Badge
-              <ArrowRight size={16} />
+              Start Issuing
             </Link>
             <Link
               href="/explore"
               id="hero-explore"
-              className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold border border-border hover:bg-muted/60 transition-all duration-200 text-sm"
+              className="w-full sm:w-auto px-8 py-3 border border-border font-bold font-mono text-sm uppercase hover:bg-accent transition-colors"
             >
-              Explore Badges
+              Explore
             </Link>
           </div>
-
-          {/* Social proof */}
-          <p className="mt-8 text-xs text-muted-foreground animate-fade-in" style={{ animationDelay: '0.4s' }}>
-            Non-transferable · On-chain verifiable · Solana-powered
-          </p>
         </div>
       </section>
 
       {/* Example Badges Floating Showcase */}
-      <section className="py-16 px-4 sm:px-6">
-        <div className="mx-auto max-w-5xl">
-          <p className="text-center text-sm text-muted-foreground mb-8 font-medium uppercase tracking-widest">
-            Example Badges
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <section className="py-24 px-6 border-b border-border">
+        <div className="mx-auto max-w-6xl">
+          <div className="flex items-center justify-between mb-12">
+            <h2 className="text-xs font-bold uppercase tracking-[0.2em] font-mono text-muted-foreground">
+              Recent Emissions
+            </h2>
+            <div className="h-px flex-1 mx-8 bg-border hidden sm:block" />
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-0 border-t border-l border-border">
             {exampleBadges.map((badge, i) => (
               <div
                 key={badge.name}
-                className={`relative rounded-2xl border ${badge.border} bg-gradient-to-br ${badge.color} p-6 hover:-translate-y-1 transition-transform duration-300 animate-slide-up`}
-                style={{ animationDelay: `${i * 0.1}s` }}
+                className="group relative border-r border-b border-border p-8 bg-card hover:bg-accent transition-colors duration-200"
               >
-                <div className="text-4xl mb-4">{badge.emoji}</div>
-                <h3 className="font-semibold text-sm mb-1">{badge.name}</h3>
-                <p className="text-xs text-muted-foreground">
-                  Issued by @{badge.issuer} · {badge.date}
+                <div className="text-3xl mb-6 grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all">{badge.emoji}</div>
+                <h3 className="font-bold text-sm mb-2 uppercase font-mono tracking-tight">{badge.name}</h3>
+                <p className="text-[10px] text-muted-foreground uppercase font-mono tracking-widest">
+                  {badge.issuer} // {badge.date}
                 </p>
-                <div className="absolute top-4 right-4 flex items-center gap-1 text-xs text-emerald-400 font-medium">
-                  <BadgeCheck size={13} />
-                  Verified
+                <div className="mt-6 pt-4 border-t border-border flex items-center gap-2 text-[10px] text-muted-foreground font-bold uppercase font-mono">
+                  <BadgeCheck size={12} />
+                  Verified on Solana
                 </div>
               </div>
             ))}
@@ -207,33 +190,25 @@ export default function HomePage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-20 px-4 sm:px-6 bg-muted/20">
-        <div className="mx-auto max-w-5xl">
-          <div className="text-center mb-14">
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-3">
-              Simple 3-step flow
+      <section className="py-24 px-6 bg-background border-b border-border">
+        <div className="mx-auto max-w-6xl">
+          <div className="text-left mb-16 max-w-2xl">
+            <h2 className="text-4xl font-bold tracking-tighter uppercase font-mono mb-4">The Protocol</h2>
+            <p className="text-sm text-muted-foreground font-mono uppercase tracking-tight">
+              A streamlined flow for verified achievement recognition.
             </p>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">How SoulStamp works</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {steps.map((step, i) => (
-              <div key={step.number} className="relative">
-                {/* Connector line (desktop) */}
-                {i < steps.length - 1 && (
-                  <div className="hidden md:block absolute top-8 left-[calc(100%-1rem)] w-8 h-px bg-border z-10" />
-                )}
-                <div className="flex flex-col items-start gap-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <step.icon size={22} className="text-primary" />
-                    </div>
-                    <span className="text-3xl font-bold text-border/80">{step.number}</span>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-2">{step.title}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{step.description}</p>
-                  </div>
+              <div key={step.number} className="flex flex-col gap-6">
+                <div className="flex items-baseline gap-4">
+                  <span className="text-5xl font-bold font-mono tracking-tighter text-border group-hover:text-foreground transition-colors leading-none">{step.number}</span>
+                  <div className="h-px flex-1 bg-border" />
+                </div>
+                <div>
+                  <h3 className="font-bold mb-3 uppercase font-mono text-sm">{step.title}</h3>
+                  <p className="text-xs text-muted-foreground font-mono leading-relaxed uppercase tracking-tight">{step.description}</p>
                 </div>
               </div>
             ))}
@@ -242,107 +217,48 @@ export default function HomePage() {
       </section>
 
       {/* Features Grid */}
-      <section className="py-20 px-4 sm:px-6">
+      <section className="py-24 px-6 border-b border-border">
         <div className="mx-auto max-w-6xl">
-          <div className="text-center mb-14">
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-3">
-              Everything you need
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-              Built for real communities
-            </h2>
-            <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
-              From hackathon launches to DAO governance — SoulStamp handles every type of
-              achievement recognition.
+          <div className="text-left mb-16 max-w-2xl">
+            <h2 className="text-4xl font-bold tracking-tighter uppercase font-mono mb-4">Infrastructure</h2>
+            <p className="text-sm text-muted-foreground font-mono uppercase tracking-tight">
+              Everything required for sovereign community identity.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-border">
             {features.map((feature) => (
               <div
                 key={feature.title}
-                className="group rounded-2xl border border-border/60 bg-card p-6 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300"
+                className="group border-r border-b border-border p-8 hover:bg-accent transition-all duration-200"
               >
-                <div className={`w-10 h-10 rounded-xl ${feature.bg} flex items-center justify-center mb-4`}>
-                  <feature.icon size={20} className={feature.color} />
+                <div className="w-8 h-8 flex items-center justify-center mb-6 text-foreground">
+                  <feature.icon size={24} strokeWidth={1.5} />
                 </div>
-                <h3 className="font-semibold mb-2">{feature.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
+                <h3 className="font-bold mb-3 uppercase font-mono text-sm">{feature.title}</h3>
+                <p className="text-xs text-muted-foreground font-mono leading-relaxed uppercase tracking-tight">{feature.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Use Case Block */}
-      <section className="py-20 px-4 sm:px-6 bg-muted/20">
-        <div className="mx-auto max-w-4xl">
-          <div className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/5 to-accent/5 p-8 sm:p-12">
-            <div className="flex items-start gap-4 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <Star size={20} className="text-primary" />
-              </div>
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">
-                  Real use case
-                </p>
-                <h2 className="text-2xl sm:text-3xl font-bold">
-                  From QR scan to exclusive access
-                </h2>
-              </div>
-            </div>
-            <div className="space-y-4 text-muted-foreground">
-              <p className="leading-relaxed">
-                A startup hosts a launch meetup. Attendees scan a QR at the venue and claim an{' '}
-                <strong className="text-foreground">"Early Launch Attendee"</strong> badge. Because it's
-                non-transferable, only real attendees have it.
-              </p>
-              <p className="leading-relaxed">
-                Later, the startup rewards badge holders with{' '}
-                <strong className="text-foreground">
-                  gated Discord access, whitelist perks, or early product access
-                </strong>{' '}
-                — without needing to trust a screenshot or a claim.
-              </p>
-            </div>
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <Link
-                href="/dashboard/create"
-                id="usecase-create-badge"
-                className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold bg-primary text-primary-foreground hover:opacity-90 transition-all duration-200 text-sm shadow-lg shadow-primary/25"
-              >
-                Start issuing badges
-                <ArrowRight size={16} />
-              </Link>
-              <Link
-                href="/verify"
-                id="usecase-verify"
-                className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold border border-border hover:bg-muted/60 transition-all duration-200 text-sm"
-              >
-                Verify a badge
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* CTA Banner */}
-      <section className="py-20 px-4 sm:px-6">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
-            Ready to stamp your{' '}
-            <span className="purple-text">community's</span> legacy?
+      <section className="py-32 px-6">
+        <div className="mx-auto max-w-4xl text-center">
+          <h2 className="text-5xl sm:text-6xl font-bold tracking-tighter mb-8 uppercase font-mono leading-none">
+            Ready to <br /> Stamp Your Legacy?
           </h2>
-          <p className="text-muted-foreground mb-8 text-lg">
-            Connect your wallet and launch your first badge campaign in under 5 minutes.
+          <p className="text-muted-foreground mb-12 text-sm uppercase font-mono tracking-tight max-w-xl mx-auto">
+            Deploy your first verified badge campaign on Solana in under five minutes.
           </p>
           <Link
             href="/dashboard/create"
             id="cta-create-badge"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold bg-primary text-primary-foreground hover:opacity-90 active:scale-95 transition-all duration-200 shadow-xl shadow-primary/30 text-base"
+            className="inline-flex items-center gap-3 px-12 py-4 bg-foreground text-background font-bold font-mono text-sm uppercase hover:opacity-90 transition-opacity"
           >
-            Create a Badge Campaign
-            <ArrowRight size={18} />
+            Launch Campaign
+            <ArrowRight size={16} />
           </Link>
         </div>
       </section>

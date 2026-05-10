@@ -103,19 +103,19 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="mx-auto max-w-5xl px-4 sm:px-6 py-12">
+    <div className="mx-auto max-w-6xl px-6 py-24">
       {/* Profile header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-10">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/30 to-accent/20 flex items-center justify-center flex-shrink-0">
-            <BadgeCheck size={28} className="text-primary" />
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8 mb-16">
+        <div className="flex items-center gap-6">
+          <div className="w-16 h-16 bg-foreground flex items-center justify-center flex-shrink-0">
+            <BadgeCheck size={32} className="text-background" />
           </div>
           <div>
-            <h1 className="font-bold text-xl tracking-tight">
-              {isOwner ? 'My Badges' : 'Badge Profile'}
+            <h1 className="font-bold text-2xl tracking-tighter uppercase font-mono">
+              {isOwner ? 'Identity Profile' : 'External Identity'}
             </h1>
-            <p className="text-sm text-muted-foreground font-mono mt-0.5">
-              {truncate(walletAddress, 10)}
+            <p className="text-xs text-muted-foreground font-mono mt-1 uppercase tracking-widest">
+              {walletAddress}
             </p>
           </div>
         </div>
@@ -124,33 +124,33 @@ export default function ProfilePage() {
           <button
             id="share-profile-btn"
             onClick={handleShare}
-            className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm border border-border hover:bg-muted/60 transition-colors font-medium"
+            className="flex items-center gap-2 px-4 py-2 border border-border hover:bg-accent transition-colors font-bold font-mono text-[10px] uppercase"
           >
-            {copied ? <Check size={14} className="text-emerald-400" /> : <Share2 size={14} />}
-            {copied ? 'Copied!' : 'Share Profile'}
+            {copied ? <Check size={12} className="text-emerald-500" /> : <Share2 size={12} />}
+            {copied ? 'Copied' : 'Share Identity'}
           </button>
           <a
             href={`https://explorer.solana.com/address/${walletAddress}?cluster=devnet`}
             target="_blank"
             rel="noreferrer"
-            className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm border border-border hover:bg-muted/60 transition-colors"
+            className="flex items-center gap-2 px-3 py-2 border border-border hover:bg-accent transition-colors"
           >
-            <ExternalLink size={14} />
+            <ExternalLink size={12} />
           </a>
         </div>
       </div>
 
       {/* Stats */}
       {badges.length > 0 && (
-        <div className="grid grid-cols-3 gap-3 mb-8">
+        <div className="grid grid-cols-3 gap-0 border-t border-l border-border mb-16">
           {[
-            { label: 'Total Badges', value: badges.length },
-            { label: 'Active', value: badges.filter(b => !b.isRevoked).length },
+            { label: 'Attestations', value: badges.length },
+            { label: 'Verified', value: badges.filter(b => !b.isRevoked).length },
             { label: 'Revoked', value: badges.filter(b => b.isRevoked).length },
           ].map(stat => (
-            <div key={stat.label} className="rounded-2xl border border-border bg-card p-4 text-center">
-              <p className="text-2xl font-bold">{stat.value}</p>
-              <p className="text-xs text-muted-foreground mt-0.5">{stat.label}</p>
+            <div key={stat.label} className="border-r border-b border-border bg-card p-6 text-left">
+              <p className="text-[10px] text-muted-foreground uppercase font-mono tracking-widest mb-1">{stat.label}</p>
+              <p className="text-2xl font-bold font-mono">{stat.value}</p>
             </div>
           ))}
         </div>
@@ -158,97 +158,102 @@ export default function ProfilePage() {
 
       {/* Badge grid */}
       {loading ? (
-        <div className="flex flex-col items-center justify-center py-24 gap-3">
-          <Loader2 size={28} className="animate-spin text-muted-foreground" />
-          <p className="text-sm text-muted-foreground">Loading badges from Solana…</p>
+        <div className="flex flex-col items-center justify-center py-32 gap-4">
+          <Loader2 size={24} className="animate-spin text-muted-foreground" />
+          <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Syncing Identity Data...</p>
         </div>
       ) : error ? (
-        <div className="text-center py-20">
-          <p className="text-muted-foreground text-sm">{error}</p>
+        <div className="text-center py-32 border border-dashed border-border">
+          <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground">{error}</p>
         </div>
       ) : badges.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-border/80 flex flex-col items-center justify-center py-24 gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-muted flex items-center justify-center">
-            <BadgeCheck size={26} className="text-muted-foreground" />
+        <div className="border border-dashed border-border flex flex-col items-center justify-center py-32 gap-6 bg-card/50">
+          <div className="w-12 h-12 bg-foreground/5 flex items-center justify-center">
+            <BadgeCheck size={24} strokeWidth={1} className="text-muted-foreground" />
           </div>
           <div className="text-center">
-            <p className="font-medium mb-1">No badges yet</p>
-            <p className="text-sm text-muted-foreground">
-              {isOwner ? 'Claim your first badge from an event or community.' : 'This wallet has no badges yet.'}
+            <h2 className="font-bold text-sm uppercase font-mono mb-2 tracking-tight">No Attestations Found</h2>
+            <p className="text-muted-foreground text-[10px] uppercase font-mono max-w-xs leading-relaxed tracking-widest">
+              {isOwner ? 'This identity has not claimed any verified badges.' : 'This wallet has no verified achievement records.'}
             </p>
           </div>
           {isOwner && (
-            <a href="/explore" className="text-sm text-primary hover:underline">Browse campaigns →</a>
+            <a href="/explore" className="px-8 py-3 border border-border font-bold font-mono text-[10px] uppercase hover:bg-accent transition-colors">Browse campaigns</a>
           )}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {badges.map((badge) => (
-            <div
-              key={badge.publicKey.toBase58()}
-              className={cn(
-                'rounded-2xl border bg-card overflow-hidden hover:-translate-y-1 transition-all duration-300 group',
-                badge.isRevoked
-                  ? 'border-border/40 opacity-60'
-                  : 'border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5'
-              )}
-            >
-              {/* Artwork area */}
-              <div className="bg-gradient-to-br from-primary/10 to-accent/5 flex items-center justify-center py-6 relative min-h-[160px]">
-                {badge.imageUrl ? (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
-                    src={badge.imageUrl}
-                    alt={badge.campaignData?.title ?? 'Badge'}
-                    className={cn(
-                      'w-28 h-28 rounded-2xl object-cover border-2 border-white/10 transition-all duration-300',
-                      badge.isRevoked
-                        ? 'grayscale opacity-60'
-                        : 'group-hover:scale-105 group-hover:shadow-xl group-hover:shadow-primary/20'
-                    )}
-                  />
-                ) : (
-                  <div className={cn(
-                    'w-20 h-20 rounded-2xl flex items-center justify-center',
-                    badge.isRevoked ? 'bg-muted' : 'bg-primary/20'
-                  )}>
-                    <BadgeCheck
-                      size={36}
-                      className={badge.isRevoked ? 'text-muted-foreground' : 'text-primary'}
+        <>
+          <div className="flex items-center justify-between mb-8 pb-4 border-b border-border">
+            <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground">
+              Verification History
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-border">
+            {badges.map((badge) => (
+              <div
+                key={badge.publicKey.toBase58()}
+                className={cn(
+                  'border-r border-b border-border bg-card overflow-hidden transition-colors duration-200 group',
+                  badge.isRevoked ? 'opacity-50 grayscale' : 'hover:bg-accent'
+                )}
+              >
+                {/* Artwork area */}
+                <div className="bg-accent/30 flex items-center justify-center py-8 relative min-h-[200px] border-b border-border">
+                  {badge.imageUrl ? (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img
+                      src={badge.imageUrl}
+                      alt={badge.campaignData?.title ?? 'Badge'}
+                      className={cn(
+                        'w-32 h-32 object-cover border border-border transition-transform duration-300',
+                        !badge.isRevoked && 'group-hover:scale-105'
+                      )}
                     />
-                  </div>
-                )}
+                  ) : (
+                    <div className={cn(
+                      'w-24 h-24 border border-dashed border-border flex items-center justify-center',
+                      badge.isRevoked ? 'bg-muted' : 'bg-background'
+                    )}>
+                      <BadgeCheck
+                        size={32}
+                        className={badge.isRevoked ? 'text-muted-foreground' : 'text-foreground'}
+                      />
+                    </div>
+                  )}
 
-                {/* Status pill */}
-                {badge.isRevoked ? (
-                  <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-destructive/20 text-destructive text-xs font-medium">
-                    Revoked
+                  {/* Status indicator */}
+                  <div className="absolute top-4 right-4">
+                    {badge.isRevoked ? (
+                      <span className="px-2 py-0.5 border border-destructive text-destructive text-[9px] font-bold font-mono uppercase tracking-widest bg-destructive/10">
+                        Revoked
+                      </span>
+                    ) : (
+                      <span className="px-2 py-0.5 border border-foreground text-foreground text-[9px] font-bold font-mono uppercase tracking-widest bg-background flex items-center gap-1">
+                        <BadgeCheck size={10} /> Verified
+                      </span>
+                    )}
                   </div>
-                ) : (
-                  <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 text-xs font-medium">
-                    <BadgeCheck size={10} /> Verified
-                  </div>
-                )}
-              </div>
+                </div>
 
-              {/* Info */}
-              <div className="p-4">
-                <h3 className="font-semibold text-sm mb-1 leading-tight">
-                  {badge.campaignData?.title ?? 'Unknown Badge'}
-                </h3>
-                <p className="text-xs text-muted-foreground line-clamp-2 mb-3">
-                  {badge.campaignData?.description}
-                </p>
-                <div className="flex items-center justify-between text-xs text-muted-foreground">
-                  <span className="px-2 py-0.5 rounded-full bg-muted">
-                    {badge.campaignData?.eventName || badge.campaignData?.category || 'Badge'}
-                  </span>
-                  <span>{formatDate(badge.issuedAt)}</span>
+                {/* Info */}
+                <div className="p-6">
+                  <h3 className="font-bold text-sm uppercase font-mono tracking-tight mb-2 truncate">
+                    {badge.campaignData?.title ?? 'Unknown Attestation'}
+                  </h3>
+                  <p className="text-[10px] text-muted-foreground uppercase font-mono tracking-widest line-clamp-2 mb-6 min-h-[32px]">
+                    {badge.campaignData?.description}
+                  </p>
+                  <div className="flex items-center justify-between pt-4 border-t border-border">
+                    <span className="text-[9px] font-bold font-mono uppercase tracking-widest text-muted-foreground">
+                      {badge.campaignData?.eventName || badge.campaignData?.category || 'Registry Entry'}
+                    </span>
+                    <span className="text-[9px] font-mono text-muted-foreground">{formatDate(badge.issuedAt)}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

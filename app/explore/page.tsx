@@ -8,41 +8,41 @@ export const metadata: Metadata = {
 
 export default function ExplorePage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 sm:px-6 py-16">
-      <div className="text-center mb-12">
-        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3">Explore Badges</h1>
-        <p className="text-muted-foreground max-w-md mx-auto">
-          Discover public badge campaigns from communities, DAOs, and events on Solana.
+    <div className="mx-auto max-w-6xl px-6 py-24">
+      <div className="text-left mb-16 max-w-2xl">
+        <h1 className="text-4xl font-bold tracking-tighter uppercase font-mono mb-4">Discovery</h1>
+        <p className="text-sm text-muted-foreground font-mono uppercase tracking-tight">
+          Browse verified badge campaigns across the Solana ecosystem.
         </p>
       </div>
 
       {/* Search bar (placeholder) */}
-      <div className="relative max-w-lg mx-auto mb-12">
-        <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
+      <div className="relative max-w-xl mb-16">
+        <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
         <input
           type="text"
-          placeholder="Search badges or issuers…"
-          className="w-full pl-10 pr-4 py-3 rounded-xl border border-border bg-card text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+          placeholder="SEARCH REGISTRY..."
+          className="w-full pl-10 pr-4 py-3 border border-border bg-card text-xs font-mono uppercase tracking-tight focus:outline-none focus:border-foreground transition-colors"
           disabled
         />
       </div>
 
       {/* Empty state */}
-      <div className="rounded-2xl border border-dashed border-border/80 flex flex-col items-center justify-center py-24 gap-5">
-        <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center">
-          <Compass size={28} className="text-primary" />
+      <div className="border border-dashed border-border flex flex-col items-center justify-center py-32 gap-6 bg-card/50">
+        <div className="w-12 h-12 bg-foreground/5 flex items-center justify-center">
+          <Compass size={24} strokeWidth={1} className="text-muted-foreground" />
         </div>
         <div className="text-center">
-          <h2 className="font-semibold text-lg mb-2">No public badges yet</h2>
-          <p className="text-muted-foreground text-sm max-w-xs">
-            Once campaigns are deployed on-chain, they'll appear here for the world to see.
+          <h2 className="font-bold text-sm uppercase font-mono mb-2 tracking-tight">Registry Empty</h2>
+          <p className="text-muted-foreground text-[10px] uppercase font-mono max-w-xs leading-relaxed tracking-widest">
+            Pending on-chain deployment of the SoulStamp Anchor protocol.
           </p>
         </div>
       </div>
 
-      <div className="mt-8 rounded-2xl border border-border/60 bg-amber-500/5 border-amber-500/20 p-4">
-        <p className="text-sm text-amber-600 dark:text-amber-400">
-          <strong>Coming in Phase 4+:</strong> Live on-chain campaign data will populate this page after the Anchor program is deployed.
+      <div className="mt-12 p-6 border border-border bg-accent/20">
+        <p className="text-[10px] font-mono uppercase tracking-[0.1em] text-muted-foreground leading-relaxed">
+          <strong className="text-foreground">Notice:</strong> Live registry population is scheduled for Phase 4+. All campaigns are currently private or testing.
         </p>
       </div>
     </div>
